@@ -1,18 +1,13 @@
-.PHONY:all clean		#伪目标
+.PYTHON:all clean
 
-SRCS = $(wildcard *.c)	#扫描目录下全部.c文件
-OBJS = $(SRCS:.c=.o)	#字符串替换
-DEPS = $(SRCS:.c=.d)
-BIN  = mp3
-all: $(BIN) $(DEPS)	
-ifneq ("$(wildcard $(DEPS))","")
-include $(DEPS)
-endif
-$(BIN):$(OBJS)
-	gcc -o $@ $^
-%.o:%.c
-	gcc -o $@ -c $(filter %.c,$^)  #从目标依赖变量中过滤出.c文件
-%.d:%.c
-	gcc -MM $^ > $@		#-MM自动扫描需要的依赖
+all:
+	make -C lcd
+	make -C usb
+	make -C media
+	make -C app
+
 clean:
-	rm -f  $(BIN) $(OBJS) $(DEPS)
+	rm -rf app/player.o mp3/mp3
+	rm -rf usb/usb.o usb/usb.d
+	rm -rf lcd/lcd.o lcd/lcd.d
+	rm -rf media/media.o media/media.d
