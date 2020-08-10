@@ -2,14 +2,17 @@
 
 SRCS = $(wildcard *.c)	#扫描目录下全部.c文件
 OBJS = $(SRCS:.c=.o)	#字符串替换
+DEPS = $(SRCS:.c=.d)
 BIN  = mp3
-all: $(BIN)				#生成多个目标
-
+all: $(BIN) $(DEPS)	
+ifneq ("$(wildcard $(DEPS))","")
+include $(DEPS)
+endif
 $(BIN):$(OBJS)
-	@echo "SRCS =$(SRCS)"
-	@echo "OBJS =$(OBJS)"
 	gcc -o $@ $^
 %.o:%.c
-	gcc -o $@ -c $^
+	gcc -o $@ -c $(filter %.c,$^)  #从目标依赖变量中过滤出.c文件
+%.d:%.c
+	gcc -MM $^ > $@		#-MM自动扫描需要的依赖
 clean:
-	rm -f  $(BIN) $(OBJS)
+	rm -f  $(BIN) $(OBJS) $(DEPS)
