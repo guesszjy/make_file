@@ -1,4 +1,5 @@
 .PHONY:all clean
+export BUILD_ROOT = $(shell pwd)
 
 all:
 	make -C lcd
@@ -7,8 +8,4 @@ all:
 	make -C app
 
 clean:
-	rm -rf app/player.o app/player.d app/mp3
-	rm -rf usb/usb.o usb/usb.d
-	rm -rf lcd/lcd.o lcd/lcd.d
-	rm -rf media/media.o media/media.d
-
+	rm -rf app/link_obj app/dep mp3
