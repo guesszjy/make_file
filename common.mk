@@ -1,18 +1,27 @@
-.PHONY:all clean		#伪目标
+.PHONY:all clean
 
-SRCS = $(wildcard *.c)	#扫描目录下全部.c文件
-OBJS = $(SRCS:.c=.o)	#字符串替换
+SRCS = $(wildcard *.c)
+OBJS = $(SRCS:.c=.o)
 DEPS = $(SRCS:.c=.d)
+BIN := $(addprefix /home/zjy/make_file/,$(BIN))
 
-all:$(DEPS) $(OBJS) $(BIN)
-ifneq ("$(wildcard $(DEPS))","")
+LINK_OBJ_DIR =/home/zjy/make_file/app/link_obj
+$(shell mkdir -p $(LINK_OBJ_DIR))
+
+OBJS := $(addprefix $(LINK_OBJ_DIR)/,$(OBJS))
+
+LINK_OBJ = $(wildcard $(LINK_OBJ_DIR)/*.o)
+LINK_OBJ +=$(OBJS)
+all: $(DEPS) $(OBJS) $(BIN)
+ifneq ("$(wildcard $(DEPS))","")	
 include $(DEPS)
 endif
-$(BIN):$(OBJS)
-	gcc -o $@ $^
-%.o:%.c
-	gcc -o $@ -c $(filter %.c,$^)  #从目标依赖变量中过滤出.c文件
+$(BIN):$(LINK_OBJ)
+	@echo "LINK_OBJ=$(LINK_OBJ)"
+	gcc -o $@ $^ 
+$(LINK_OBJ_DIR)/%.o:%.c
+	gcc -o $@ -c $(filter %.c,$^)
 %.d:%.c
-	gcc -MM $^ > $@		#-MM自动扫描需要的依赖
+	gcc -MM $^ | sed 's,\(.*\).o[ :]*,$(LINK_OBJ_DIR)/\1.o:,g' > $@
 clean:
 	rm -f  $(BIN) $(OBJS) $(DEPS)

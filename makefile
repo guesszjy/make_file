@@ -1,4 +1,4 @@
-.PYTHON:all clean
+.PHONY:all clean
 
 all:
 	make -C lcd
@@ -7,7 +7,8 @@ all:
 	make -C app
 
 clean:
-	rm -rf app/player.o mp3/mp3
+	rm -rf app/player.o app/player.d app/mp3
 	rm -rf usb/usb.o usb/usb.d
 	rm -rf lcd/lcd.o lcd/lcd.d
 	rm -rf media/media.o media/media.d
+
