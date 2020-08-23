@@ -2,6 +2,6 @@
 BIN = 
 LIB = libmedia.a
 
-include ../common.mk
+include $(BUILD_ROOT)/common.mk
 
 

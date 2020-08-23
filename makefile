@@ -1,14 +1,10 @@
 .PHONY:all clean
-export BUILD_ROOT = $(shell pwd)
-export HEAD_PATH = $(BUILD_ROOT)/include
-
+include config.mk
 all:
-	make -C lcd
-	make -C usb
-	make -C media
-	make -C math
-	make -C app
-
+	@for dir in $(BUILD_DIR); \
+	do \
+		make -C $$dir; \
+	done
 clean:
 	rm -rf app/link_obj app/dep app/lib_obj mp3
 	rm -rf lib/*.a lib/*.so
