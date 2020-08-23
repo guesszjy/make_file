@@ -1,0 +1,5 @@
+[root@localhost tmp]# gcc -o jpg.o -c jpg.c 
+[root@localhost tmp]# ar rcs libjpg.a jpg.o 
+[root@localhost tmp]# gcc -fPIC -o rmvb.o -c rmvb.c 
+[root@localhost tmp]# gcc -shared -o librmvb.so rmvb.o 
+

@@ -11,4 +11,4 @@ all:
 
 clean:
 	rm -rf app/link_obj app/dep app/lib_obj mp3
-	rm -rf lib/*.a
+	rm -rf lib/*.a lib/*.so
