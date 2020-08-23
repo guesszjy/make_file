@@ -6,6 +6,7 @@ all:
 	make -C lcd
 	make -C usb
 	make -C media
+	make -C math
 	make -C app
 
 clean:
